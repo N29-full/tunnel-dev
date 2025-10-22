@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Minimal wrapper bootstrapper: uses the official Gradle Wrapper if present,
+# otherwise downloads it on first run.
+DIR="$(cd "$(dirname "$0")" && pwd)"
+WRAPPER_JAR="${DIR}/gradle/wrapper/gradle-wrapper.jar"
+if [ ! -f "$WRAPPER_JAR" ]; then
+  echo "gradle-wrapper.jar missing; please run Gradle once on your machine to materialize wrapper."
+  echo "Alternatively, open the project in IntelliJ and let it download the wrapper."
+  exit 1
+fi
+# Run the official wrapper
+java ${ORG_GRADLE_JAVA_HOME:+-Dorg.gradle.java.home="$ORG_GRADLE_JAVA_HOME"} -cp "$WRAPPER_JAR" org.gradle.wrapper.GradleWrapperMain "$@"

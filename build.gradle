@@ -1,0 +1,28 @@
+plugins {
+    id 'fabric-loom' version '1.4.12'
+}
+
+group = "yourname.aoe"
+version = "0.1.0"
+
+repositories {
+    mavenCentral()
+    maven { url = "https://maven.fabricmc.net/" }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.officialMojangMappings()
+
+    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+
+    // Local Baritone API jar
+    implementation files("libs/baritone-api-fabric-1.15.0.jar")
+}
+
+java { toolchain { languageVersion = JavaLanguageVersion.of(21) } }
+
+loom { runs { client { client() } } }
+
+tasks.withType(JavaCompile).configureEach { options.release = 21 }
